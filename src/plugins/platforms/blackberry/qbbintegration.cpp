@@ -209,7 +209,6 @@ QBBIntegration::~QBBIntegration()
     QBBGLContext::shutdown();
 
 #if defined(Q_OS_BLACKBERRY)
-    delete mBpsEventFilter;
     bps_shutdown();
 #endif
 
