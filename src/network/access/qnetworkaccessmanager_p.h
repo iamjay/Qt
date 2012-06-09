@@ -78,9 +78,9 @@ public:
           proxyFactory(0),
 #endif
 #ifndef QT_NO_BEARERMANAGEMENT
-          networkSession(0),
           lastSessionState(QNetworkSession::Invalid),
           networkAccessible(QNetworkAccessManager::Accessible),
+          activeReplyCount(0),
           online(false),
           initializeSession(true),
 #endif
@@ -112,6 +112,7 @@ public:
 
 #ifndef QT_NO_BEARERMANAGEMENT
     void createSession(const QNetworkConfiguration &config);
+    QSharedPointer<QNetworkSession> getNetworkSession() const;
 
     void _q_networkSessionClosed();
     void _q_networkSessionNewConfigurationActivated();
@@ -136,10 +137,12 @@ public:
 #endif
 
 #ifndef QT_NO_BEARERMANAGEMENT
-    QSharedPointer<QNetworkSession> networkSession;
+    QSharedPointer<QNetworkSession> networkSessionStrongRef;
+    QWeakPointer<QNetworkSession> networkSessionWeakRef;
     QNetworkSession::State lastSessionState;
     QString networkConfiguration;
     QNetworkAccessManager::NetworkAccessibility networkAccessible;
+    int activeReplyCount;
     bool online;
     bool initializeSession;
 #endif
