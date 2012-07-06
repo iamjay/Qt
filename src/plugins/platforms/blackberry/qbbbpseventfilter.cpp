@@ -210,8 +210,10 @@ bool QBBBpsEventFilter::handleNavigatorEvent(bps_event_t *event)
         qDebug() << "QBB: Navigator WINDOW ACTIVE event";
         #endif
 
+#if 0
         const QByteArray id(navigator_event_get_groupid(event));
         mNavigatorEventHandler->handleWindowGroupActivated(id);
+#endif
         break;
     }
 
@@ -220,9 +222,23 @@ bool QBBBpsEventFilter::handleNavigatorEvent(bps_event_t *event)
         qDebug() << "QBB: Navigator WINDOW INACTIVE event";
         #endif
 
+#if 0
         const QByteArray id(navigator_event_get_groupid(event));
         mNavigatorEventHandler->handleWindowGroupDeactivated(id);
+#endif
         break;
+    }
+
+    case NAVIGATOR_WINDOW_STATE: {
+        const navigator_window_state_t state = navigator_event_get_window_state(event);
+        if (state == NAVIGATOR_WINDOW_FULLSCREEN) {
+            const QByteArray id(navigator_event_get_groupid(event));
+            mNavigatorEventHandler->handleWindowGroupActivated(id);
+	} else {
+            const QByteArray id(navigator_event_get_groupid(event));
+            mNavigatorEventHandler->handleWindowGroupDeactivated(id);
+	}
+	break;
     }
 
     default:
