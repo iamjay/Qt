@@ -64,6 +64,8 @@
 #include <fepbase.h>
 #include <aknedsts.h>
 #include <eikccpu.h>
+#include <eikedwin.h>
+#include <aknedformaccessor.h>
 
 class CAknExtendedInputCapabilities;
 
@@ -224,6 +226,9 @@ private:
     QPointer<QObject> m_lastFocusedObject;
 
     CAknExtendedInputCapabilities *m_extendedInputCapabilities;
+
+    QScopedPointer<CAknEdwinFormAccessor> m_formAccessor;
+    QScopedPointer<CEikEdwin> m_dummyEditor;
 
     friend class tst_QInputContext;
 };
